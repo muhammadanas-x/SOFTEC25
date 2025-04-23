@@ -4,6 +4,9 @@ public class Bullet : MonoBehaviour
 {
 
     private Vector3 direction;
+
+    private float bulletMagnitude;
+
     private float distanceToTarget;
     public float bulletSpeed;
 
@@ -11,6 +14,10 @@ public class Bullet : MonoBehaviour
 
     
 
+    public void SetMagnitude(float mag)
+    {
+        bulletMagnitude = mag;
+    }
     public void SetDirection(Vector3 dir)
     {
         direction = dir;
@@ -23,7 +30,7 @@ public class Bullet : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.position += direction * Time.deltaTime * bulletSpeed;
+        transform.position += direction * Time.deltaTime * bulletMagnitude;
     }
 
     void OnTriggerEnter2D(Collider2D collision)
