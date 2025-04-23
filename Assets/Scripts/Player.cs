@@ -14,9 +14,7 @@ public class Player : MonoBehaviour
     public float sizeFalloffCurve = 1.5f;  // Controls how quickly size decreases (higher = fast
     
     public GameObject slowMotionSprite; // Reference to the slow motion sprite
-    private Vector3 dragStartPosition;
     private bool isDragging;
-    private Vector3 shootDirection;
     private float dragMagnitude;
     private GameObject[] directionIndicators;
 
@@ -123,6 +121,7 @@ public class Player : MonoBehaviour
     void Shoot(float magnitude)
     {
         GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+        bullet.transform.rotation = transform.rotation; // Set bullet rotation to player rotation
         bullet.GetComponent<Bullet>().SetDirection(-transform.up);
         bullet.GetComponent<Bullet>().SetMagnitude(magnitude);
     }

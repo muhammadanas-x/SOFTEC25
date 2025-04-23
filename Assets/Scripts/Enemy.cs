@@ -1,22 +1,46 @@
 using UnityEngine;
+using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject player;
-    public float moveSpeed = 5f;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public GameObject Center;
+    public float moveSpeed = 10f;
+    public float recoveryTime = 2f;
+
+    private Rigidbody2D rb;
+    private Vector2 dir;
+
+    private bool isAttacked = false;
+
     void Start()
     {
-        
+        rb = GetComponent<Rigidbody2D>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        Vector3 dir = player.transform.position - transform.position;
-        dir.Normalize();
+        dir = (Center.transform.position - transform.position).normalized;
+    }
 
+    void FixedUpdate()
+    {
+        if (!isAttacked)
+        {
+            rb.linearVelocity = dir * moveSpeed;
+        }
+    }
 
-        transform.position += dir * moveSpeed * Time.deltaTime;
+    public void Attack(Vector3 Direction)
+    {
+        isAttacked = true;
+        rb.linearVelocity = Vector2.zero;
+        rb.AddForce(Direction * 10f, ForceMode2D.Impulse); // Impulse for smoother knockback
+        StartCoroutine(RecoverAfterDelay());
+    }
+
+    private IEnumerator RecoverAfterDelay()
+    {
+        yield return new WaitForSeconds(recoveryTime);
+        isAttacked = false;
     }
 }

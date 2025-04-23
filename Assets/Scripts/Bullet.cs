@@ -27,7 +27,6 @@ public class Bullet : MonoBehaviour
         
     }
 
-    // Update is called once per frame
     void Update()
     {
         transform.position += direction * Time.deltaTime * bulletMagnitude;
@@ -39,12 +38,20 @@ public class Bullet : MonoBehaviour
     }
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Debug.Log("hi");
         if(collision.gameObject.CompareTag("Enemy"))
         {
             Vector3 normal = collision.contacts[0].normal;
             Vector3 reflectDir = Vector3.Reflect(direction, normal);
             direction = reflectDir;
+
+
+
+            Enemy enemy = collision.gameObject.GetComponent<Enemy>();
+            if (enemy != null)
+            {
+            
+                enemy.Attack(-transform.up);
+            }
 
         }
     }
