@@ -13,6 +13,7 @@ public class Player : MonoBehaviour
     public float minIndicatorSize = 0.1f;  // Size of the last (farthest) indicator
     public float sizeFalloffCurve = 1.5f;  // Controls how quickly size decreases (higher = fast
     
+    public GameObject slowMotionSprite; // Reference to the slow motion sprite
     private Vector3 dragStartPosition;
     private bool isDragging;
     private Vector3 shootDirection;
@@ -42,7 +43,7 @@ public class Player : MonoBehaviour
         Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         mousePosition.z = 0;
         Quaternion lookRotation = Quaternion.LookRotation(Vector3.forward, mousePosition - transform.position); 
-        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 10f);
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.unscaledDeltaTime * 10f);
     }
 
     void HandleMovement()
@@ -66,10 +67,14 @@ public class Player : MonoBehaviour
             
             // Update direction indicators
             UpdateDirectionIndicators(currentMousePos);
+
+            slowMotionSprite.GetComponent<FadeEffect>().isFading = true;
         }
         else if (Input.GetMouseButtonUp(0))
         {
             Time.timeScale = 1f;
+            slowMotionSprite.GetComponent<FadeEffect>().isFading = false;
+
             Shoot(dragMagnitude);
             HideDirectionIndicators();
             isDragging = false;
