@@ -66,12 +66,10 @@ public class Player : MonoBehaviour
             // Update direction indicators
             UpdateDirectionIndicators(currentMousePos);
 
-            slowMotionSprite.GetComponent<FadeEffect>().isFading = true;
         }
         else if (Input.GetMouseButtonUp(0))
         {
             Time.timeScale = 1f;
-            slowMotionSprite.GetComponent<FadeEffect>().isFading = false;
 
             Shoot(dragMagnitude);
             HideDirectionIndicators();

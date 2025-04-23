@@ -49,7 +49,8 @@ public class Bullet : MonoBehaviour
             Enemy enemy = collision.gameObject.GetComponent<Enemy>();
             if (enemy != null)
             {
-            
+                VFXSpawner vFXSpawner = GameObject.Find("VFXSpawner").GetComponent<VFXSpawner>();   
+                vFXSpawner.SpawnVFXAtPoint(collision.contacts[0].point);
                 enemy.Attack(-transform.up);
             }
 
