@@ -352,7 +352,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -595,6 +595,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 5
   bulletPrefab: {fileID: 2714923416623009984, guid: f779da6325d4a7b44a5a198c64feac78, type: 3}
+  directionIndicatorPrefab: {fileID: 6390177378338666679, guid: 6916a87f066759a48bd11faddfb189b8, type: 3}
+  indicatorCount: 5
+  indicatorSpacing: 0.5
+  maxIndicatorSize: 0.5
+  minIndicatorSize: 0.1
+  sizeFalloffCurve: 1.5
 --- !u!114 &1203702315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -673,8 +679,8 @@ TrailRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Time: 0.84
-  m_PreviewTimeScale: 1
+  m_Time: 2.31
+  m_PreviewTimeScale: 0.92
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 4
@@ -682,8 +688,8 @@ TrailRenderer:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0.011749268
-        value: 0.33103985
+        time: 0.008811951
+        value: 0.28966564
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -691,7 +697,16 @@ TrailRenderer:
         inWeight: 0
         outWeight: 0
       - serializedVersion: 3
-        time: 0.371521
+        time: 0.4152474
+        value: 0
+        inSlope: -0.29991716
+        outSlope: -0.29991716
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
         value: 0
         inSlope: 0
         outSlope: 0
@@ -733,10 +748,10 @@ TrailRenderer:
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
-    numCapVertices: 90
+    numCapVertices: 0
     alignment: 0
-    textureMode: 3
-    textureScale: {x: 0.29, y: 1.48}
+    textureMode: 1
+    textureScale: {x: -0.01, y: 1.48}
     shadowBias: 0.5
     generateLightingData: 0
   m_MinVertexDistance: 0
