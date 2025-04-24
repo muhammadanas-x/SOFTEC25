@@ -5,7 +5,11 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     public float moveSpeed;
+    public UIManager uiManager;
+
+    public static float bulletCount = 3;
     public GameObject bulletPrefab;
+    public Transform shootpoint;
     public GameObject directionIndicatorPrefab; // Small circle sprite prefab
     public int indicatorCount = 5; // Number of indicator sprites
     public float indicatorSpacing = 1f; // Space between indicators
@@ -13,7 +17,6 @@ public class Player : MonoBehaviour
     public float minIndicatorSize = 0.1f;  // Size of the last (farthest) indicator
     public float sizeFalloffCurve = 1.5f;  // Controls how quickly size decreases (higher = fast
     
-    public GameObject slowMotionSprite; // Reference to the slow motion sprite
     private bool isDragging;
     private float dragMagnitude;
     private GameObject[] directionIndicators;
@@ -71,6 +74,12 @@ public class Player : MonoBehaviour
         {
             Time.timeScale = 1f;
 
+            if(bulletCount < 1) {
+                HideDirectionIndicators();
+                return;
+            }
+
+
             Shoot(dragMagnitude);
             HideDirectionIndicators();
             isDragging = false;
@@ -117,10 +126,39 @@ public class Player : MonoBehaviour
     }
 
     void Shoot(float magnitude)
-    {
-        GameObject bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+    {   
+        GameObject bullet = Instantiate(bulletPrefab, shootpoint.transform.position, Quaternion.identity);
         bullet.transform.rotation = transform.rotation; // Set bullet rotation to player rotation
         bullet.GetComponent<Bullet>().SetDirection(-transform.up);
         bullet.GetComponent<Bullet>().SetMagnitude(magnitude);
+
+
+        bulletCount--;
+        uiManager.setText(bulletCount.ToString());
+    }
+
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+       
+    }
+
+
+    void OnTriggerEnter2D(Collider2D collision)
+    {
+         if(collision.gameObject.CompareTag("Flower"))
+        {   
+            if(bulletCount < 3)
+            {
+                bulletCount++;
+                uiManager.setText(bulletCount.ToString());
+                Destroy(collision.gameObject);
+            }
+            else
+            {
+                // Optional: Play a sound or show a message indicating that the player is at max bullets
+                Debug.Log("Max bullets reached!");
+            }
+        }
     }
 }

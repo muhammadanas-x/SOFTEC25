@@ -5,10 +5,13 @@ public class Bullet : MonoBehaviour
 
     private Vector3 direction;
 
+    public ParticleSystem particleSystem;
     private float bulletMagnitude;
 
     private float distanceToTarget;
     public float bulletSpeed;
+
+
 
 
 
@@ -52,6 +55,9 @@ public class Bullet : MonoBehaviour
                 VFXSpawner vFXSpawner = GameObject.Find("VFXSpawner").GetComponent<VFXSpawner>();   
                 vFXSpawner.SpawnVFXAtPoint(collision.contacts[0].point);
                 enemy.Attack(-transform.up);
+                Instantiate(particleSystem.gameObject, collision.contacts[0].point, Quaternion.identity);
+
+                enemy.TakeDamage(50);
             }
 
         }

@@ -3,7 +3,8 @@ using System.Collections;
 
 public class Enemy : MonoBehaviour
 {
-    public GameObject Center;
+    private GameObject Center;
+    public float health = 100f;
     public float moveSpeed = 10f;
     public float recoveryTime = 2f;
 
@@ -15,6 +16,7 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody2D>();
+        Center = GameObject.Find("Center"); // Find the player GameObject by its tag    
     }
 
     void Update()
@@ -30,6 +32,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
+
+    public void TakeDamage(float damage)
+    {
+        health -= damage;
+        if (health <= 0f)
+        {
+            Destroy(gameObject); // Destroy the enemy when health is zero
+        }
+    }
     public void Attack(Vector3 Direction)
     {
         isAttacked = true;

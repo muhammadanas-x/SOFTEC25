@@ -6,9 +6,13 @@ public class EnemyRotation : MonoBehaviour
     public GameObject leftwing;
 
     public GameObject rightwing;
-    public GameObject CenterObject;  // Reference to the player GameObject
+    private GameObject CenterObject;  // Reference to the player GameObject
     public float RotationSpeed = 5f;  // Controls how quickly the enemy rotates
-    
+
+    void Start()
+    {
+        CenterObject = GameObject.Find("Center"); // Find the player GameObject by its tag
+    }
     void Update()
     {
        float rotation = Mathf.Sin(Time.time * 2f) * 0.5f + 0.5f;

@@ -103,6 +103,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eff3fdc25a58ba34c8899db0c26d3b9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleSystem: {fileID: 3154309384286534369, guid: 14e55a527e807ae47bcb43816373f256, type: 3}
   bulletSpeed: 5
 --- !u!58 &-2028287985314255761
 CircleCollider2D:
