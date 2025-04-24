@@ -61,8 +61,8 @@ public class Player : MonoBehaviour
             currentMousePos.z = 0;
             
             dragMagnitude = Vector3.Distance(transform.position, currentMousePos);
-            dragMagnitude = Mathf.Pow(dragMagnitude, 2.0f);
-            
+            dragMagnitude *= 1.1f;
+                        
             // Update direction indicators
             UpdateDirectionIndicators(currentMousePos);
 
