@@ -7,9 +7,6 @@ public class SpawnManager : MonoBehaviour
     private float currentTimer = 0f;
 
     public float endTimer = 5f;
-
-    public float maxSpawn = 3;
-    public float currentCount = 1;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -19,7 +16,7 @@ public class SpawnManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(Player.bulletCount > 2) return;
+        if(Player.bulletCount > 9) return;
 
         
         if(currentTimer > endTimer)

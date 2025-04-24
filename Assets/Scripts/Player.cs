@@ -7,7 +7,7 @@ public class Player : MonoBehaviour
     public float moveSpeed;
     public UIManager uiManager;
 
-    public static float bulletCount = 3;
+    public static float bulletCount = 10;
     public GameObject bulletPrefab;
     public Transform shootpoint;
     public GameObject directionIndicatorPrefab; // Small circle sprite prefab
@@ -148,7 +148,7 @@ public class Player : MonoBehaviour
     {
          if(collision.gameObject.CompareTag("Flower"))
         {   
-            if(bulletCount < 3)
+            if(bulletCount < 10)
             {
                 bulletCount++;
                 uiManager.setText(bulletCount.ToString());
