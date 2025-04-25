@@ -2,6 +2,7 @@ using UnityEngine;
 
 public class FlowerScript : MonoBehaviour
 {
+    public AudioClip pickUpSound;
     void Update()
     {
         // Sinusoidal oscillation between -45 and 45 degrees

@@ -16,10 +16,21 @@ public class Player : MonoBehaviour
     public float maxIndicatorSize = 0.5f;  // Size of the first (closest) indicator
     public float minIndicatorSize = 0.1f;  // Size of the last (farthest) indicator
     public float sizeFalloffCurve = 1.5f;  // Controls how quickly size decreases (higher = fast
-    
+
+    public AudioClip walk;
+    public AudioClip gunShoot;
+    public AudioSource audioSourceWalk;
+    public AudioSource audioSource;
+    public AudioSource pickAudioSource;
+    public AudioClip pickItem;
+
+
     private bool isDragging;
     private float dragMagnitude;
     private GameObject[] directionIndicators;
+
+    public GameObject bulletDisplay;
+    Animator bulletDisplayAnimator;
 
     void Start()
     {
@@ -30,6 +41,7 @@ public class Player : MonoBehaviour
             directionIndicators[i] = Instantiate(directionIndicatorPrefab);
             directionIndicators[i].SetActive(false);
         }
+        bulletDisplayAnimator = bulletDisplay.GetComponent<Animator>();
     }
 
     void Update()
@@ -50,15 +62,33 @@ public class Player : MonoBehaviour
     void HandleMovement()
     {
         Vector3 moveInput = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-        transform.position += moveInput.normalized * moveSpeed * Time.deltaTime;
-    }
 
+        // Check if input magnitude is below a threshold (e.g., "almost zero")
+        if (moveInput.sqrMagnitude >= 0.001f)
+        {
+            transform.position += moveInput.normalized * moveSpeed * Time.deltaTime;
+
+            // Play sound only if not already playing
+            if (!audioSourceWalk.isPlaying)
+            {
+                audioSourceWalk.PlayOneShot(walk); // Better for rapid playback
+            }
+        }
+        else
+        {
+            audioSourceWalk.Stop(); // Stop when not moving
+        }
+    }
     void HandleShooting()
     {
        
         if (Input.GetMouseButton(0))
         {  
             Time.timeScale = 0.1f;
+            if (audioSourceWalk.isPlaying)
+            {
+                audioSourceWalk.Stop();
+            }
             // Calculate drag magnitude
             Vector3 currentMousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             currentMousePos.z = 0;
@@ -127,6 +157,12 @@ public class Player : MonoBehaviour
 
     void Shoot(float magnitude)
     {   
+        audioSource.PlayOneShot(gunShoot);
+
+        if (bulletDisplayAnimator != null)
+        {
+            bulletDisplayAnimator.SetTrigger("isShoot");
+        }
         GameObject bullet = Instantiate(bulletPrefab, shootpoint.transform.position, Quaternion.identity);
         bullet.transform.rotation = transform.rotation; // Set bullet rotation to player rotation
         bullet.GetComponent<Bullet>().SetDirection(-transform.up);
@@ -151,6 +187,11 @@ public class Player : MonoBehaviour
             if(bulletCount < 10)
             {
                 bulletCount++;
+                pickAudioSource.PlayOneShot(pickItem);
+                if (bulletDisplayAnimator != null)
+                {
+                    bulletDisplayAnimator.SetTrigger("isPick");
+                }
                 uiManager.setText(bulletCount.ToString());
                 Destroy(collision.gameObject);
             }

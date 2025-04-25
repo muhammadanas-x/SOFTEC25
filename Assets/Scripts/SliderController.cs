@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class SliderController : MonoBehaviour
 {
@@ -8,6 +9,7 @@ public class SliderController : MonoBehaviour
     private float damageTimer = 0f;
 
     public float damage = 2f; // Amount of health to reduce each hit
+    public GameObject gameOverPanel;
 
     void Start()
     {
@@ -42,8 +44,21 @@ public class SliderController : MonoBehaviour
     {
         if (healthSlider != null)
         {
-            healthSlider.value = Mathf.Clamp01(healthSlider.value - damage);
-            Debug.Log(healthSlider.value);
+            if (healthSlider.value > 0)
+            {
+                healthSlider.value = Mathf.Clamp01(healthSlider.value - damage);
+                Debug.Log(healthSlider.value);
+            }
+            else //gameover code here
+            {
+                gameOverPanel.SetActive(true);
+                Time.timeScale = 0.2f;
+            }
         }
+    }
+
+    public void restart()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

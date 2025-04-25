@@ -8,6 +8,11 @@ public class Enemy : MonoBehaviour
     public float moveSpeed = 10f;
     public float recoveryTime = 2f;
 
+    public AudioSource audioSource;
+    public AudioClip hit;
+    public AudioSource buzzAudio;
+    public AudioClip buzz;
+
     private Rigidbody2D rb;
     private Vector2 dir;
 
@@ -17,6 +22,7 @@ public class Enemy : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         Center = GameObject.Find("Center"); // Find the player GameObject by its tag    
+        buzzAudio.Play();
     }
 
     void Update()
@@ -36,6 +42,7 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage)
     {
         health -= damage;
+        AudioSource.PlayClipAtPoint(hit, transform.position); 
         if (health <= 0f)
         {
             Destroy(gameObject); // Destroy the enemy when health is zero
